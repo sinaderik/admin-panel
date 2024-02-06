@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from "@assets/images/logo.svg";
-import { Link } from "react-router-dom";
+
 
 export default function Login() {
   return (
@@ -19,7 +19,7 @@ export default function Login() {
                     </p>
                     <p className="lead">
                       قبلا ثبت نام نکرده اید؟
-                      {/* <Link to="/register" className="me-2">ثبت نام کنید </Link> */}
+                      <a className="me-2">ثبت نام کنید </a>
                     </p>
                   </div>
 
@@ -53,7 +53,6 @@ export default function Login() {
           </div>
         </main>
       </div>
-
     </>
   );
 }
