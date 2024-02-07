@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import logo from "@assets/images/logo.svg";
-import { Link, useActionData, useNavigate, useNavigation, useSubmit } from 'react-router-dom';
+import { Link, useActionData, useNavigate, useNavigation, useRouteError, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {httpService} from '../../../core/http-service';
 
@@ -11,6 +11,7 @@ export default function Register() {
   const isSubmitting = navigation.state !== "idle"
   const isSuccessOperation = useActionData();
   const navigate = useNavigate();
+  const routeErrors=useRouteError();
 
   useEffect(() => {
     if (isSuccessOperation) {
@@ -135,6 +136,17 @@ export default function Register() {
                 isSuccessOperation && (
                   <div className='alert alert-success text-success p-2 mt-2'>
                     عملیات با موفقیت انجام شد. به صفحه ورود منتقل می شوید
+                  </div>
+                )
+              }
+              {
+                routeErrors && (
+                  <div className='alert alert-danger text-danger p-2 mt-2'>
+                    {
+                      routeErrors.response?.data.map(error=>(
+                        <p className='mb-0'>{error.description}</p>
+                      ))
+                    }
                   </div>
                 )
               }
