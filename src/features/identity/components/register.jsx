@@ -1,13 +1,16 @@
 import React from 'react'
 import logo from "@assets/images/logo.svg";
-import { Link } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import httpService from '../../../core/http-service';
 
 export default function Register() {
   const { register, watch, handleSubmit, formState: { errors } } = useForm()
+  const submitForm = useSubmit();
 
   function onSubmit(formData) {
-    console.log(formData)
+    const { confirmPassword, ...userData } = formData
+    submitForm(userData, { method: "POST" })
   }
 
   return (
@@ -59,13 +62,13 @@ export default function Register() {
                 <label className="form-label">رمز عبور</label>
                 <input
                   {...register("password", {
-                    minLength:6,
+                    minLength: 6,
                     required: "پسورد الزامی است"
                   })}
                   className={`form-control form-control-lg mb-2 ${errors.password && "is-invalid"}`}
                   type="password"
                 />
-                 {
+                {
                   errors.password && (errors.password.type === "minLength") &&
                   (
                     <p className='text-danger fw-bolder small mt-1'>
@@ -95,7 +98,7 @@ export default function Register() {
                   className={`form-control form-control-lg mb-2 ${errors.confirmPassword && "is-invalid"}`}
                   type="password"
                 />
-                 {
+                {
                   errors.confirmPassword && errors.confirmPassword.type === "required" && (
                     <p className='text-danger fw-bolder small mt-1'>
                       {errors.confirmPassword?.message}
@@ -103,8 +106,8 @@ export default function Register() {
                   )
                 }
                 {
-                  errors.confirmPassword && 
-                  errors.confirmPassword.type==="validate" &&(
+                  errors.confirmPassword &&
+                  errors.confirmPassword.type === "validate" && (
                     <p className='text-danger fw-bolder small mt-1'>
                       {errors.confirmPassword?.message}
                     </p>
@@ -123,4 +126,10 @@ export default function Register() {
 
     </>
   )
+}
+export async function registerAction({ request }) {
+  const formData = await request.formData()
+  const data = Object.entries(formData)
+  const response = httpService.post('/User', data)
+  return (await response).status === 200
 }
