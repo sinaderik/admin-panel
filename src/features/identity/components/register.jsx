@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 import logo from "@assets/images/logo.svg";
 import { Link, useActionData, useNavigate, useNavigation, useRouteError, useSubmit } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import {httpService} from '../../../core/http-service';
+import { httpService } from '../../../core/http-service';
+import { useTranslation } from 'react-i18next';
+
 
 export default function Register() {
   const { register, watch, handleSubmit, formState: { errors } } = useForm();
@@ -11,8 +13,8 @@ export default function Register() {
   const isSubmitting = navigation.state !== "idle"
   const isSuccessOperation = useActionData();
   const navigate = useNavigate();
-  const routeErrors=useRouteError();
-
+  const routeErrors = useRouteError();
+  const { t } = useTranslation();
   useEffect(() => {
     if (isSuccessOperation) {
       setTimeout(() => {
@@ -129,7 +131,8 @@ export default function Register() {
               </div>
               <div className="text-center mt-3">
                 <button type="submit" disabled={isSubmitting} className="btn btn-lg btn-primary">
-                  {isSubmitting ? "در حال انجام عملیات" : "ثبت نام کنید"}
+                  {/* {isSubmitting ? "در حال انجام عملیات" : "ثبت نام کنید"} */}
+                  {t('register.register')}
                 </button>
               </div>
               {
@@ -143,7 +146,7 @@ export default function Register() {
                 routeErrors && (
                   <div className='alert alert-danger text-danger p-2 mt-2'>
                     {
-                      routeErrors.response?.data.map(error=>(
+                      routeErrors.response?.data.map(error => (
                         <p className='mb-0'>{error.description}</p>
                       ))
                     }
@@ -158,9 +161,12 @@ export default function Register() {
     </>
   )
 }
+
 export async function registerAction({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
   const response = await httpService.post('/Users', data)
   return response.status === 200
 }
+
+
