@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function Register() {
+
   const { register, watch, handleSubmit, formState: { errors } } = useForm();
   const submitForm = useSubmit();
   const navigation = useNavigation();
@@ -15,6 +16,7 @@ export default function Register() {
   const navigate = useNavigate();
   const routeErrors = useRouteError();
   const { t } = useTranslation();
+
   useEffect(() => {
     if (isSuccessOperation) {
       setTimeout(() => {
@@ -33,13 +35,15 @@ export default function Register() {
 
       <div className="text-center mt-4">
         <img src={logo} style={{ height: "100px" }} />
-        <h1 className="h2">پلتفرم آموزش آنلاین</h1>
+        <h1 className="h2">{t('register.title')}</h1>
         <p className="lead">
-          جهت استفاده از ویژگی های پلتفرم آموزشی ثبت نام کنید
+          {t('register.introMessage')}
         </p>
         <p className="lead">
-          قبلا ثبت نام کرده اید؟
-          <Link to="/login" className="me-2">وارد شوید</Link>
+          {t("register.alreadyRegistered")}
+          <Link to="/login" className="me-2">
+            {t("register.signin")}
+          </Link>
         </p>
       </div>
 
@@ -48,7 +52,7 @@ export default function Register() {
           <div className="m-sm-4">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3">
-                <label className="form-label">موبایل</label>
+                <label className="form-label">{t("register.mobile")}</label>
                 <input
                   {...register("mobile", {
                     required: "شماره موبایل الزامی است",
@@ -59,7 +63,7 @@ export default function Register() {
                 {
                   errors.mobile && errors.mobile.type === "required" && (
                     <p className='text-danger fw-bolder small mt-1'>
-                      {errors.mobile?.message}
+                      {t("register.validation.mobileRequired")}
                     </p>
                   )
                 }
@@ -68,13 +72,13 @@ export default function Register() {
                     errors.mobile.type === "maxLength") &&
                   (
                     <p className='text-danger fw-bolder small mt-1'>
-                      "موبایل باید 11 رقم باشد"
+                      {t("register.validation.mobileLength")}
                     </p>
                   )
                 }
               </div>
               <div className="mb-3">
-                <label className="form-label">رمز عبور</label>
+                <label className="form-label">{t("register.password")}</label>
                 <input
                   {...register("password", {
                     minLength: 6,
@@ -87,26 +91,26 @@ export default function Register() {
                   errors.password && (errors.password.type === "minLength") &&
                   (
                     <p className='text-danger fw-bolder small mt-1'>
-                      پسورد حداقل باید 6 رقم باشد
+                      {t("register.validation.passwordRequired")}
                     </p>
                   )
                 }
                 {
                   errors.password && errors.password.type === "required" && (
                     <p className='text-danger fw-bolder small mt-1'>
-                      {errors.password?.message}
+                      {t("register.validation.passwordRequired")}
                     </p>
                   )
                 }
               </div>
               <div className="mb-3">
-                <label className="form-label">تکرار رمز عبور</label>
+                <label className="form-label">{t("register.repeatPassword")}</label>
                 <input
                   {...register("confirmPassword", {
                     required: "تکرار پسورد الزامی است",
                     validate: value => {
                       if (watch("password") !== value) {
-                        return "رمز وارد شده تطابق ندارد"
+                        return t("register.validation.notMatching");
                       }
                     }
                   })}
@@ -116,7 +120,7 @@ export default function Register() {
                 {
                   errors.confirmPassword && errors.confirmPassword.type === "required" && (
                     <p className='text-danger fw-bolder small mt-1'>
-                      {errors.confirmPassword?.message}
+                      {t("register.validation.repeatPasswordRequired")}
                     </p>
                   )
                 }
@@ -138,7 +142,7 @@ export default function Register() {
               {
                 isSuccessOperation && (
                   <div className='alert alert-success text-success p-2 mt-2'>
-                    عملیات با موفقیت انجام شد. به صفحه ورود منتقل می شوید
+                    {t("register.successOperation")}
                   </div>
                 )
               }
@@ -147,7 +151,7 @@ export default function Register() {
                   <div className='alert alert-danger text-danger p-2 mt-2'>
                     {
                       routeErrors.response?.data.map(error => (
-                        <p className='mb-0'>{error.description}</p>
+                        <p className='mb-0'> {t(`register.validation.${error.code}`)}</p>
                       ))
                     }
                   </div>
