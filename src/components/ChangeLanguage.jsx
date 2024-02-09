@@ -7,6 +7,7 @@ export default function ChangeLanguage() {
 
   const [show, setShow] = useState(false)
   const ref = useRef();
+  
   useEffect(() => {
 
     function checkIfClickOutside(e){
@@ -20,6 +21,7 @@ export default function ChangeLanguage() {
       document.removeEventListener("mousedown", checkIfClickOutside)
     }
   }, [show])
+ 
   return (
     <div className='dropdown'>
       <a className='nav-flag dropdown-toggle' onClick={() => setShow(true)}>
