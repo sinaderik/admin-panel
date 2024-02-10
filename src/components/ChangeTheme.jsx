@@ -1,8 +1,14 @@
 import React from 'react'
+import { useAppContext } from '../contexts/app/AppContext'
 
 export default function ChangeTheme() {
+    const { theme, changeTheme } = useAppContext()
+
+    function changeThemeHandler() {
+        changeTheme(theme === "light" ? "dark" : "light")
+    }
     return (
-        <button className="theme-toggle">
+        <button className="theme-toggle" data-theme={theme} onClick={changeThemeHandler}>
             <svg
                 className="sun-and-moon"
                 aria-hidden="true"
