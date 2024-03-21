@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./features/identity/components/Login";
-import Register from "./features/identity/components/register";
+import Register from "./features/identity/components/Register";
 import IdentityLayout from "./layouts/identity-layout";
-import { registerAction } from "./features/identity/components/register";
+import { registerAction } from "./features/identity/components/Register";
 
 const router = createBrowserRouter([
     {

@@ -23,7 +23,7 @@
     },
     "login": {
       "title": "Online Education Platform",
-      "introMessage": "To log in, you need to use your mobile phone and password",
+      "introMessage": "To log in, you need to use your mobile number and password",
       "signingin": "Signing in ...",
       "signin": "Sign in",
       "register": "Register",
