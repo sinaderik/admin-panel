@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "./features/identity/components/Login";
 import Register from "./features/identity/components/Register";
 import IdentityLayout from "./layouts/identity-layout";
-import MainLayout from "./layouts/main-layout";
+import MainLayout from "./layouts/mainLayout/main-layout";
 import { registerAction } from "./features/identity/components/Register";
 import { loginAction } from "./features/identity/components/Login";
 import Courses from "./pages/courses";

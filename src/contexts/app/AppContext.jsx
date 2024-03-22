@@ -6,7 +6,8 @@ const AppContext = createContext();
 
 const initialState = {
     language: localStorage.getItem("language") || "fa",
-    theme: localStorage.getItem("theme") || "light"
+    theme: localStorage.getItem("theme") || "light",
+    showSidebar:true
 }
 
 function AppProvider({ children }) {
@@ -17,6 +18,7 @@ function AppProvider({ children }) {
         i18n.changeLanguage(state.language)
         localStorage.setItem('language', state.language)
         document.body.dataset.direction = state.language === "fa" ? "rtl" : "ltr"
+        document.body.dataset.sidebarPosition = state.language === "fa" ? "right" : "left"
     }, [state.language])
 
     useEffect(() => {
@@ -32,8 +34,11 @@ function AppProvider({ children }) {
         dispatch({ type: "CHANGE_THEME", payload: theme })
     }
 
+    function toggleSidebar(){
+        dispatch({type:"TOGGLE_SIDEBAR"})
+    }
     return (
-        <AppContext.Provider value={{ ...state, changeLanguage, changeTheme }}>
+        <AppContext.Provider value={{ ...state, changeLanguage, changeTheme,toggleSidebar }}>
             {children}
         </AppContext.Provider>
     )
