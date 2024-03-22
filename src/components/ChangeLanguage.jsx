@@ -11,6 +11,10 @@ export default function ChangeLanguage() {
   const { language, changeLanguage } = useAppContext()
 
   useEffect(() => {
+    setShow(false)
+  }, [language])
+  
+  useEffect(() => {
 
     function checkIfClickOutside(e) {
       if (show && ref.current && !ref.current.contains(e.target)) {
