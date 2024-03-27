@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
+import Course from '../course/Course';
 
 export default function CourseList() {
     const loadedCourse = useLoaderData();
@@ -9,7 +10,7 @@ export default function CourseList() {
            {
             loadedCourse.map((course)=>(
                 <div className='col-3' key={course.id}>
-                    course
+                    <Course {...course}/>
                 </div>
             ))
            }
