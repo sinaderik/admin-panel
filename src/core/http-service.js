@@ -26,6 +26,7 @@ httpInterceptedService.interceptors.request.use(
     (error) => Promise.reject(error)
 )
 
+// to redirect user to login page when the token is expired
 httpInterceptedService.interceptors.response.use(
     (response) => response,
     async (error) => {
