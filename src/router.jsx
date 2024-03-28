@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, useNavigate } from "react-router-dom";
 import Login from "./features/identity/components/Login";
 import Register from "./features/identity/components/Register";
 import IdentityLayout from "./layouts/identity-layout";

@@ -1,8 +1,12 @@
-import axios from 'axios'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CourseList from '../features/courses/components/courseList/CourseList'
-import {httpInterceptedService} from '../core/http-service'
+import { httpInterceptedService } from '../core/http-service'
+import { useNavigate } from 'react-router-dom'
+
+
 export default function Courses() {
+
+
   return (
     <div className='row'>
       <div className='col-12'>
@@ -16,8 +20,8 @@ export default function Courses() {
     </div>
   )
 }
-
 export async function coursesLoader() {
-  const response = await httpInterceptedService.get("/Course/list")
-  return response.data
+  const response = await httpInterceptedService.get('/Course/list');
+  return response.data;
+
 }

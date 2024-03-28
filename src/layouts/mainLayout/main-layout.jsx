@@ -11,6 +11,7 @@ export default function MainLayout() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
+      console.log(token)
       navigate("/login")
     }
   }, [])
