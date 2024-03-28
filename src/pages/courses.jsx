@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import CourseList from '../features/courses/components/courseList/CourseList'
 import { httpInterceptedService } from '../core/http-service'
-import { useNavigate } from 'react-router-dom'
+import { Await, defer, useLoaderData, useNavigate } from 'react-router-dom'
 
 
 export default function Courses() {
-
+  const data = useLoaderData();
 
   return (
     <div className='row'>
@@ -15,13 +15,21 @@ export default function Courses() {
             افزودن دوره جدید +
           </a>
         </div>
-        <CourseList />
+        <Suspense fallback={<p className='text-info'>در حال دریافت اطلاعات...</p>}>
+          <Await resolve={data.courses}>
+            {(loadedCourses) => <CourseList courses={loadedCourses} />}
+          </Await>
+        </Suspense>
       </div>
     </div>
   )
 }
 export async function coursesLoader() {
+  return defer({
+    courses: loadCourses()
+  })
+}
+async function loadCourses() {
   const response = await httpInterceptedService.get('/Course/list');
   return response.data;
-
 }
