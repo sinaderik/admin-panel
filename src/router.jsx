@@ -7,6 +7,7 @@ import { registerAction } from "./features/identity/components/Register";
 import { loginAction } from "./features/identity/components/Login";
 import Courses, { coursesLoader } from "./pages/courses";
 import CourseCategories from "./pages/CourseCategories";
+import CourseDetail, { courseDetailsLoader } from "./features/courses/components/CourseDetail/CourseDetail";
 
 const router = createBrowserRouter([
     {
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
         {
             path: "/course-categories",
             element: <CourseCategories />
+        },
+        {
+            path:"/courses/:id",
+            element:<CourseDetail />,
+            loader:courseDetailsLoader,
         }
-
         ]
     },
     {
