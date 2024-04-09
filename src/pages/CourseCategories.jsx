@@ -24,13 +24,20 @@ export default function CourseCategories() {
   )
 }
 
-export async function categoriesLoader() {
+export async function categoriesLoader({ request }) {
   return defer({
-    categories: loadCategories()
+    categories: loadCategories(request)
   })
 }
 
-export async function loadCategories() {
-  const response = await httpInterceptedService.get("/CourseCategory/sieve")
+export async function loadCategories(request) {
+
+  const page = new URL(request.url).searchParams.get("page") || 1
+  console.log(new URL(request.url))
+  const pageSize = 3;
+  let url = "/CourseCategory/sieve";
+  url += `?page=${page}&pageSize=${pageSize}`;
+  const response = await httpInterceptedService.get(url)
+  
   return response.data
 }
