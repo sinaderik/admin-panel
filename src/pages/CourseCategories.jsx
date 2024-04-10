@@ -1,11 +1,29 @@
 import React, { Suspense, useState } from 'react'
-import { Await, defer, useLoaderData } from 'react-router-dom'
+import { Await, defer, useLoaderData, useNavigate } from 'react-router-dom'
 import { httpInterceptedService } from '../core/http-service'
 import CategoryList from '../features/categories/components/CategoryList';
 import Modal from "../components/Modal"
 export default function CourseCategories() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState()
+
   const data = useLoaderData();
+  const navigate = useNavigate();
+
+  function deleteCategory(categoryId) {
+    setSelectedCategory(categoryId)
+    setShowDeleteModal(true)
+  }
+  async function handelDeleteCategory() {
+    setShowDeleteModal(false)
+    const response = await httpInterceptedService.delete(`/CourseCategory/${selectedCategory}`)
+    
+    if (response.status === 200) {
+      // it cause to reload the category grid and fetch new data because we are navigating to the same route
+      const url = new URL(window.location.href)
+      navigate(url.pathname + url.search)
+    }
+  }
 
   return (
     <div className='row'>
@@ -17,7 +35,7 @@ export default function CourseCategories() {
         </div>
         <Suspense fallback={<p className='text-info'>در حال دریافت اطلاعات...</p>}>
           <Await resolve={data.categories}>
-            {(loadedCategories) => <CategoryList categories={loadedCategories} setShowDeleteModal={setShowDeleteModal} />}
+            {(loadedCategories) => <CategoryList categories={loadedCategories} deleteCategory={deleteCategory} />}
           </Await>
         </Suspense>
       </div>
@@ -26,8 +44,10 @@ export default function CourseCategories() {
           className='btn btn-secondary fw-bolder'
           onClick={() => setShowDeleteModal(false)}
         >انصراف</button>
-        
-        <button className='btn btn-primary fw-bolder'>حذف</button>
+
+        <button
+          onClick={() => handelDeleteCategory()}
+          className='btn btn-primary fw-bolder'>حذف</button>
       </Modal>
     </div>
   )
