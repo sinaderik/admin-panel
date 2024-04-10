@@ -2,7 +2,7 @@ import React from 'react'
 import _ from "lodash";
 import { useSearchParams } from 'react-router-dom';
 
-export default function Pagination({ totalRecords, pageSize = 3 }) {
+export default function Pagination({ totalRecords, pageSize = import.meta.env.VITE_PAGE_SIZE }) {
 
     const pages = Math.ceil(totalRecords / pageSize)
     // this hook will give us access to the query parameters in the url

@@ -35,7 +35,7 @@ export async function loadCategories(request) {
   // because we cannot use searchParams hook here to have accesss to query parameters 
   // we used this alternative method 
   const page = new URL(request.url).searchParams.get("page") || 1
-  const pageSize = 3;
+  const pageSize = import.meta.env.VITE_PAGE_SIZE;
   let url = "/CourseCategory/sieve";
   url += `?page=${page}&pageSize=${pageSize}`;
   const response = await httpInterceptedService.get(url)
