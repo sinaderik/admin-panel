@@ -31,13 +31,14 @@ export async function categoriesLoader({ request }) {
 }
 
 export async function loadCategories(request) {
-
+  
+  // because we cannot use searchParams hook here to have accesss to query parameters 
+  // we used this alternative method 
   const page = new URL(request.url).searchParams.get("page") || 1
-  console.log(new URL(request.url))
   const pageSize = 3;
   let url = "/CourseCategory/sieve";
   url += `?page=${page}&pageSize=${pageSize}`;
   const response = await httpInterceptedService.get(url)
-  
   return response.data
+  
 }
