@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { httpInterceptedService } from '../../../core/http-service'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useCategoryContext } from '../CategoryContext'
 
 
 export default function AddOrUpdateCategory({ setShowAddCategory }) {
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm()
+    const { category, setCategory } = useCategoryContext()
     const navigate = useNavigate();
 
+    useEffect(() => {
+        setValue('name', category.name)
+        setValue('id', category.id)
+    }, [category])
+
     const onSubmit = (data) => {
-        setShowAddCategory(false)
+        // setShowAddCategory(false)
         const response = httpInterceptedService.post(`/CourseCategory/`, data)
         toast.promise(response, {
             pending: "در حال ذخیره اطلاعات...",
@@ -18,6 +25,7 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
                 render() {
                     const url = new URL(window.location.href)
                     navigate(url.pathname + url.search)
+                    reset()
                     return 'عملیات با موفقیت انجام شد'
                 }
             },

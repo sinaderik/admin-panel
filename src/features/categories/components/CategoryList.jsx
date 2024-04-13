@@ -2,9 +2,11 @@ import React from 'react'
 import Pagination from '../../../components/Pagination'
 import { useNavigation } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
+import { useCategoryContext } from '../CategoryContext'
 
 export default function CategoryList({ categories: { data, totalRecords }, deleteCategory }) {
     const navigation = useNavigation()
+    const { setCategory } = useCategoryContext()
 
     return (
         <div className='row'>
@@ -25,7 +27,7 @@ export default function CategoryList({ categories: { data, totalRecords }, delet
                                         <tr key={category.id}>
                                             <td>{category.name}</td>
                                             <td className='table-action'>
-                                                <a href="#" className='ms-3'>
+                                                <a href="#" onClick={() => setCategory(category)} className='ms-3'>
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         width="24"
