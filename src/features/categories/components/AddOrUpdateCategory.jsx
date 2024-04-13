@@ -16,6 +16,11 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
         setValue('id', category.id)
     }, [category])
 
+    const onClose=()=>{
+        setShowAddCategory(false)
+        setCategory(null)
+    }
+
     const onSubmit = (data) => {
         // setShowAddCategory(false)
         const response = httpInterceptedService.post(`/CourseCategory/`, data)
@@ -25,6 +30,7 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
                 render() {
                     const url = new URL(window.location.href)
                     navigate(url.pathname + url.search)
+                    setCategory(null)
                     reset()
                     return 'عملیات با موفقیت انجام شد'
                 }
@@ -58,7 +64,7 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
                         <button
                             type='button'
                             className="btn btn-lg btn-secondary ms-2"
-                            onClick={() => setShowAddCategory(false)}
+                            onClick={onClose}
                         >
                             بستن
                         </button>
