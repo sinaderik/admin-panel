@@ -5,6 +5,8 @@ import { RouterProvider } from 'react-router-dom'
 import router from './router'
 import "./core/i18n"
 import { useAppContext } from './contexts/app/AppContext'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function App() {
   const {theme}=useAppContext()
@@ -24,6 +26,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer rtl position="bottom-left" />
     </>
   )
 }

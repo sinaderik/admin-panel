@@ -3,6 +3,10 @@ import { Await, defer, useLoaderData, useNavigate } from 'react-router-dom'
 import { httpInterceptedService } from '../core/http-service'
 import CategoryList from '../features/categories/components/CategoryList';
 import Modal from "../components/Modal"
+// import { Toast } from 'react-toastify/dist/components';
+import { toast } from 'react-toastify'
+
+
 export default function CourseCategories() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState()
@@ -16,13 +20,27 @@ export default function CourseCategories() {
   }
   async function handelDeleteCategory() {
     setShowDeleteModal(false)
-    const response = await httpInterceptedService.delete(`/CourseCategory/${selectedCategory}`)
-    
-    if (response.status === 200) {
-      // it cause to reload the category grid and fetch new data because we are navigating to the same route
-      const url = new URL(window.location.href)
-      navigate(url.pathname + url.search)
-    }
+    const response = httpInterceptedService.delete(`/CourseCategory/${selectedCategory}`)
+    toast.promise(response, {
+      pending: "در حال حذف...",
+      success: {
+        render() {
+          const url = new URL(window.location.href)
+          navigate(url.pathname + url.search)
+          return 'عملیات با موفقیت انجام شد'
+        }
+      },
+      error:{
+        render(){
+          return 'عملیات با شکست مواجه شد'
+        }
+      }
+    })
+    // if (response.status === 200) {
+    //   // it cause to reload the category grid and fetch new data because we are navigating to the same route
+    //   const url = new URL(window.location.href)
+    //   navigate(url.pathname + url.search)
+    // }
   }
 
   return (
