@@ -12,11 +12,13 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setValue('name', category.name)
-        setValue('id', category.id)
+        if (category) {
+            setValue('name', category.name)
+            setValue('id', category.id)
+        }
     }, [category])
 
-    const onClose=()=>{
+    const onClose = () => {
         setShowAddCategory(false)
         setCategory(null)
     }
@@ -53,6 +55,7 @@ export default function AddOrUpdateCategory({ setShowAddCategory }) {
                             type="text"
                             className={`form-control form-control-lg ${errors.name && 'is-invalid'}`}
                             {...register('name', { required: true })}
+                            autoFocus
                         />
                         {errors.name && errors.name.type === "required" && (
                             <p className='text-danger small fw-bolder mt-1'>

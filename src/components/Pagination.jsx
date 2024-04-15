@@ -14,7 +14,7 @@ export default function Pagination({ totalRecords, pageSize = import.meta.env.VI
             setSearchParams({ page: currentPage - 1 })
         }
     }
-
+    
     function nextPage() {
         if (currentPage < pages) {
             setSearchParams({ page: currentPage + 1 })

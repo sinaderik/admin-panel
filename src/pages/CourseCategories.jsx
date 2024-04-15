@@ -7,12 +7,16 @@ import Modal from "../components/Modal"
 import { toast } from 'react-toastify'
 import AddOrUpdateCategory from '../features/categories/components/AddOrUpdateCategory';
 import { useCategoryContext } from '../features/categories/CategoryContext';
+import SearchCategory from '../features/categories/components/SearchCategory';
+
 
 
 export default function CourseCategories() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState()
   const [showAddCategory, setShowAddCategory] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+
   const { category } = useCategoryContext()
 
   const data = useLoaderData();
@@ -46,21 +50,29 @@ export default function CourseCategories() {
     //   navigate(url.pathname + url.search)
     // }
   }
-
+  
   return (
     <div className='row'>
       <div className='col-12'>
 
-        <div className='d-flex align-items-center justify-content-between mb-5'>
+        <div className='d-flex align-items-center justify-content-start mb-5'>
           <a
             className='btn btn-primary fw-bolder mt-n1'
             onClick={() => setShowAddCategory(true)}
           >
             افزودن دسته جدید +
           </a>
+          <a
+            style={{ marginRight: "1rem" }}
+            className='btn btn-primary fw-bolder mt-n1'
+            onClick={() => setShowSearch(true)}
+          >
+            جستوجو
+          </a>
 
         </div>
         {(showAddCategory || category) && <AddOrUpdateCategory setShowAddCategory={setShowAddCategory} />}
+        {(showSearch) && <SearchCategory setShowSearch={setShowSearch} />}
         <Suspense fallback={<p className='text-info'>در حال دریافت اطلاعات...</p>}>
           <Await resolve={data.categories}>
             {(loadedCategories) => <CategoryList categories={loadedCategories} deleteCategory={deleteCategory} />}

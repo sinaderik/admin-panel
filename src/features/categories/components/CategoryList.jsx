@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Pagination from '../../../components/Pagination'
-import { useNavigation } from 'react-router-dom'
+import { useNavigate, useNavigation } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import { useCategoryContext } from '../CategoryContext'
+import FilterdCategory from './FilterdCategory'
+import { categoriesLoader } from '../../../pages/CourseCategories'
+
 
 export default function CategoryList({ categories: { data, totalRecords }, deleteCategory }) {
     const navigation = useNavigation()
-    const { setCategory } = useCategoryContext()
+    const { setCategory, serchedItems, setSearchedItems } = useCategoryContext()
+    const [allCategories, setAllCategories] = useState(data)
+
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (serchedItems) {
+    //         const foundedItems = data.filter(category => {
+    //             return category.name.toLowerCase().includes(serchedItems.toLowerCase())
+    //         })
+    //         setAllCategories(foundedItems)
+    //     } else {
+    //         setAllCategories(data)
+    //         setSearchedItems(null)
+    //         const url = new URL(window.location.href)
+    //         navigate(url.pathname + url.search)
+      
+
+    //     }
+    //     console.log(allCategories)
+
+    // }, [serchedItems])
 
     return (
         <div className='row'>
@@ -21,6 +45,7 @@ export default function CategoryList({ categories: { data, totalRecords }, delet
                             </tr>
                         </thead>
                         <tbody>
+                            {/* {serchedItems && <FilterdCategory serchedItems={serchedItems} data={data}/>} */}
                             {
                                 data.map(category => {
                                     return (
